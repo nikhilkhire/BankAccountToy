@@ -6,6 +6,8 @@ Added following functionality
 4.Show balance 
 5.Show transactions 
 
+I have used H2 datanase for now but we can easily configure any relational database instead.
+
 As an initial commit there are no test cases added.
 
 Below is sample request for transfer:
