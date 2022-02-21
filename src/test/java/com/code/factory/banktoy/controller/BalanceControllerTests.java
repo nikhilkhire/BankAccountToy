@@ -33,7 +33,7 @@ public class BalanceControllerTests extends BaseControllerTests{
     private MockMvc mvc;
 
     @Test
-    public void testGetBalance() throws Exception{
+    public void testBalance() throws Exception{
         given(this.accountService.checkBalance(Mockito.any())).willReturn(this.createAccount());
         final Gson gson = new Gson();
         final String json = gson.toJson(this.createLoginCredentials());
@@ -44,9 +44,34 @@ public class BalanceControllerTests extends BaseControllerTests{
                                 "{\"success\":true,\"messages\":{},\"errors\":{},\"data\":{\"balance\":\"€100\"},\"httpResponseCode\":200}"));
     }
 
+    @Test
+    public void testDeposit() throws Exception{
+        given(this.accountService.deposit(Mockito.any(), Mockito.any())).willReturn(true);
+        final Gson gson = new Gson();
+        final String json = gson.toJson(this.createLoginCredentials());
+        this.mvc.perform(post("/deposit").contentType(MediaType.APPLICATION_JSON).content(json))
+                .andExpect(status().isOk())
+                .andExpect(
+                        content().json(
+                                "{\"success\":true,\"messages\":{},\"errors\":{},\"data\":{\"deposited\":\"15 in 778855441122\"},\"httpResponseCode\":200}"));
+    }
+
+    @Test
+    public void testTransfer() throws Exception{
+        given(this.accountService.transfer(Mockito.any(), Mockito.any())).willReturn(true);
+        final Gson gson = new Gson();
+        final String json = gson.toJson(this.createLoginCredentials());
+        this.mvc.perform(post("/transfer").contentType(MediaType.APPLICATION_JSON).content(json))
+                .andExpect(status().isOk())
+                .andExpect(
+                        content().json(
+                                "{\"success\":true,\"messages\":{},\"errors\":{},\"data\":{\"transferred\":15},\"httpResponseCode\":200}"));
+    }
+
     private LoginCredentials createLoginCredentials(){
         final LoginCredentials loginCredentials = new LoginCredentials();
         loginCredentials.setIbanFrom("123456789");
+        loginCredentials.setIbanTo("778855441122");
         loginCredentials.setAmount(BigDecimal.valueOf(15));
         loginCredentials.setUserName("nikhilk");
         loginCredentials.setPassword("554466554466");
