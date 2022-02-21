@@ -8,7 +8,7 @@ Added following functionality
 
 I have used H2 datanase for now but we can easily configure any relational database instead.
 
-As an initial commit there are no test cases added.
+As an initial commit there are only few test cases added.
 
 Below is sample request for transfer:
 {
